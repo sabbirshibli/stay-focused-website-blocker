@@ -1,3 +1,4 @@
+# Necessary imports.
 import time
 from datetime import datetime as dt
 import platform
@@ -7,6 +8,7 @@ import shutil
 import ctypes
 
 
+# This function checks if this the first run or not
 def is_first_run():
     if not os.path.exists(os.path.expanduser("~/stay-focused")):
         return True
@@ -14,6 +16,7 @@ def is_first_run():
         return False
 
 
+# This function checks if the original hosts file has been backed up or not
 def is_host_file_backed_up():
     path = os.path.abspath("C:\Windows\System32\Drivers\etc\hosts.sfwb") if platform.system() == "Windows" \
         else os.path.abspath("/etc/hosts.sfwb")
@@ -24,6 +27,7 @@ def is_host_file_backed_up():
         return False
 
 
+# Checking if the user is admin or not
 try:
     is_admin = os.getuid() == 0
 except AttributeError:
@@ -36,6 +40,7 @@ if not is_admin:
         print(input("Please run with \"sudo\" command.\nPress any key to quit."))
         quit()
 
+# Checking for passed arguments
 try:
     if sys.argv[1] == "reset":
         shutil.rmtree(os.path.expanduser("~/stay-focused"))
@@ -59,6 +64,7 @@ pathToHostFile = os.path.abspath("C:\Windows\System32\Drivers\etc\hosts") if pla
     else os.path.abspath("/etc/hosts")
 localHost = "127.0.0.1"
 
+# Creating directory in home folder and also backing up hosts file if first run
 if is_first_run():
     if not is_host_file_backed_up():
         if platform.system() == "Windows":
@@ -70,6 +76,7 @@ if is_first_run():
     with open(os.path.expanduser("~/stay-focused/TimeTable.txt"), 'w') as timeTable:
         timeTable.write(input("StartTime,EndTime : "))
 
+# Opens website list if found the file, otherwise quits with a message
 if os.path.isfile("website-list.txt"):
     with open("website-list.txt", 'r') as siteList:
         listOfWebsitesToBlock = (siteList.read()).split(",")
@@ -79,9 +86,11 @@ else:
                                                                           "\nPress any key to quit.")
     quit()
 
+# Storing time table in a list
 with open(os.path.expanduser("~/stay-focused/TimeTable.txt"), 'r') as timeTable:
     tT = (timeTable.read()).split(",")
 
+# Main loop
 while True:
     if dt(dt.now().year, dt.now().month, dt.now().day, int(tT[0])) < \
             dt.now() < \

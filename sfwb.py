@@ -36,9 +36,12 @@ if not is_admin:
 try:
     if sys.argv[1] == "reset":
         shutil.rmtree(os.path.expanduser("~/stay-focused"))
-    elif sys.argv[1] == "erase-backup":
+    elif sys.argv[1] == "erase":
         if is_host_file_backed_up():
-            os.remove(os.path.abspath("/etc/hosts.sfwb"))
+            os.remove(os.path.abspath("/etc/hosts"))
+            os.rename(os.path.abspath("/etc/hosts.sfwb"), os.path.abspath("/etc/hosts"))
+            shutil.rmtree(os.path.expanduser("~/stay-focused"))
+            input("Original hosts file restored.\nPress any key to quit.")
             quit()
 except IndexError:
     pass
@@ -74,7 +77,7 @@ while True:
     if dt(dt.now().year, dt.now().month, dt.now().day, int(tT[0])) < \
             dt.now() < \
             dt(dt.now().year, dt.now().month, dt.now().day, int(tT[1])):
-        #print("Working Hours.")
+        print("Working Hours.")
         with open(pathToHostFile, 'r+') as hostFile:
             content = hostFile.read()
             for website in listOfWebsitesToBlock:
@@ -83,7 +86,7 @@ while True:
                 else:
                     hostFile.write(localHost + " " + website + "\n")
     else:
-        #print("Gaming Hours.")
+        print("Fun Hours.")
         with open(pathToHostFile, 'r+') as hostFile:
             content = hostFile.readlines()
             hostFile.seek(0)

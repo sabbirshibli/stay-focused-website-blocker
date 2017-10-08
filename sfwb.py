@@ -51,12 +51,14 @@ try:
                 os.rename(os.path.abspath("C:\Windows\System32\Drivers\etc\hosts.sfwb"),
                           os.path.abspath("C:\Windows\System32\Drivers\etc\hosts"))
                 shutil.rmtree(os.path.expanduser("~/stay-focused"))
+                input("Original hosts file restored.\nPress any key to quit.")
+                quit()
             else:
                 os.remove(os.path.abspath("/etc/hosts"))
                 os.rename(os.path.abspath("/etc/hosts.sfwb"), os.path.abspath("/etc/hosts"))
                 shutil.rmtree(os.path.expanduser("~/stay-focused"))
-            input("Original hosts file restored.\nPress any key to quit.")
-            quit()
+                input("Original hosts file restored.\nPress any key to quit.")
+                quit()
 except IndexError:
     pass
 

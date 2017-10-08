@@ -15,7 +15,10 @@ def is_first_run():
 
 
 def is_host_file_backed_up():
-    if os.path.exists(os.path.abspath("/etc/hosts.sfwb")):
+    path = os.path.abspath("C:\Windows\System32\Drivers\etc\hosts.sfwb") if platform.system() == "Windows" \
+        else os.path.abspath("/etc/hosts.sfwb")
+
+    if os.path.exists(os.path.abspath(path)):
         return True
     else:
         return False
@@ -38,9 +41,15 @@ try:
         shutil.rmtree(os.path.expanduser("~/stay-focused"))
     elif sys.argv[1] == "erase":
         if is_host_file_backed_up():
-            os.remove(os.path.abspath("/etc/hosts"))
-            os.rename(os.path.abspath("/etc/hosts.sfwb"), os.path.abspath("/etc/hosts"))
-            shutil.rmtree(os.path.expanduser("~/stay-focused"))
+            if platform.system() == "Windows":
+                os.remove(os.path.abspath("C:\Windows\System32\Drivers\etc\hosts"))
+                os.rename(os.path.abspath("C:\Windows\System32\Drivers\etc\hosts.sfwb"),
+                          os.path.abspath("C:\Windows\System32\Drivers\etc\hosts"))
+                shutil.rmtree(os.path.expanduser("~/stay-focused"))
+            else:
+                os.remove(os.path.abspath("/etc/hosts"))
+                os.rename(os.path.abspath("/etc/hosts.sfwb"), os.path.abspath("/etc/hosts"))
+                shutil.rmtree(os.path.expanduser("~/stay-focused"))
             input("Original hosts file restored.\nPress any key to quit.")
             quit()
 except IndexError:

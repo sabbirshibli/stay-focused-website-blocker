@@ -32,7 +32,7 @@ You can write whatever address in here seperated by a **comma(,)**. sfwb will re
 
 # Usage
 
-Go to the directory where you have extracted the script and open a terminal/cmd instance in that directory. In case of **Windows** you must run CMS as administrator.
+Go to the directory where you have extracted the script and open a terminal/cmd instance in that directory. In case of **Windows** you must run CMD as administrator.
 
 #### Mac/Linux
 ```sh
